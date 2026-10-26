@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verify it yourself · Agent Mistakes Index</title>
+<meta name="description" content="Three checks anyone can run: commit history, seed fingerprint, evidence hashes.">
+<link rel="stylesheet" href="style.css"></head>
+<body><header><a class="brand" href="index.html">Agent Mistakes Index</a><nav><a href="index.html">Home</a><a href="method.html">Method</a><a href="verify.html" aria-current="page">Verify it yourself</a><a href="critiques.html">Critiques we expect</a><a href="second-scorer.html">Second scorer</a><a href="press.html">Fact sheet</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></header>
+<main><h1>Verify it yourself</h1><p class="lead">You shouldn't have to trust us. Here are three checks you can run.</p>
+<h2>1. The method was public before testing</h2><p>Every edit to the method is in the public commit history. Check the date of the first version, then read the dated changelog at the bottom of the method.</p>
+<pre>git clone https://github.com/agentmistakesindex/methodology.git
+cd methodology
+git log --reverse --format="%h %ad %s" --date=iso -- METHODOLOGY.md</pre>
+<p>Or open <a href="https://github.com/agentmistakesindex/methodology/commits/main/METHODOLOGY.md">the commit history on GitHub</a>.</p>
+<h2>2. The second-scorer sample couldn't be picked after the fact</h2><p>Before testing, we published the SHA-256 fingerprint of a secret seed:</p><pre class="wrap">a7a94d19b5eff967112f8ad35cde13fc5a14dde6297a6af19dc463f4c7e8d94c</pre>
+<p>When results are out, we reveal the seed. Check that it matches:</p><pre>printf '%s' 'THE-REVEALED-SEED' | sha256sum</pre>
+<p>Then regenerate the exact 30% sample from the published run IDs, using only Python 3:</p><pre>python3 select_sample.py --seed 'THE-REVEALED-SEED' run_ids.txt</pre>
+<p>The script prints whether the seed matches the fingerprint, then lists the sample. <a href="https://github.com/agentmistakesindex/methodology/blob/main/select_sample.py">Read the script</a>; it's about 50 lines.</p>
+<h2>3. The redacted evidence matches untouched originals</h2><p>Every redacted file is published next to the SHA-256 hash of its unredacted original. If an original is ever shown, for example to a company exercising its right of reply, anyone can confirm it is the same file:</p><pre>sha256sum original-file.pdf</pre>
+<p>Found something that doesn't add up? <a href="contact.html">Tell us</a>. Confirmed errors are fixed publicly within 48 hours and logged in the changelog.</p></main>
+<footer><p>Independent and self-funded. No sponsors, no affiliate links, nothing for sale. Method: <a href="https://github.com/agentmistakesindex/methodology/blob/main/METHODOLOGY.md">METHODOLOGY.md (v1.5.2)</a>. Data licence on release: CC BY 4.0. Corrections: <a href="mailto:agentmistakesindex@gmail.com">agentmistakesindex@gmail.com</a>.</p></footer>
+</body></html>
